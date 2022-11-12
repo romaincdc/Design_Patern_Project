@@ -31,10 +31,19 @@ const sensor: Observer = {
             messageAdapter.messageAdapter();
             sensorCommand.activateProtection();
         } else if (data.resultat === 'radar sensor') {
-            sensorMessage.messageSensor('heat detected', data.resultat);
+            sensorMessage.messageSensor('motion detected', data.resultat);
             messageAdapter.messageAdapter();
             sensorCommand.activateProtection();
-        } else if (data.resultat === 'heat sensor critical' || data === 'radar sensor critical') {
+        } else if (data.resultat === 'heat sensor critical' || data.resultat === 'radar sensor critical') {
+            if (data.resultat === 'radar sensor critical') {
+                sensorMessage.messageSensor('very close movement', data.resultat);
+                messageAdapter.messageAdapter();
+            }
+            else {
+                sensorMessage.messageSensor('very close heat', data.resultat);
+                messageAdapter.messageAdapter();
+            }
+
             sensorCommand.desactivateProtection();
             sensorCommand.activateMissile();
         } else {
